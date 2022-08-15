@@ -34,8 +34,8 @@ namespace ZALNET.DataSource.SharePoint
             var queryOptions = new List<QueryOption>()
             {
                 //new QueryOption("filter", "fields/Title eq 'item 1'"),
-                new QueryOption("select", "id"),
-                new QueryOption("expand", "fields(select=Title,Author)")
+                new QueryOption("select", "ID"),
+                new QueryOption("expand", "fields(select=Question,Answer)")
             };
             var itemsPage = await list.Items
                 .Request(queryOptions)
