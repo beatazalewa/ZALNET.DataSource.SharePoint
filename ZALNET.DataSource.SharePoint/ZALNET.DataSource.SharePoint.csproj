@@ -5,8 +5,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.6.1" />
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Graph" Version="4.35.0" />
-    <PackageReference Include="Microsoft.Graph.Auth" Version="1.0.0-preview.7" />
     <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="1.25.1" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.1" />
   </ItemGroup>

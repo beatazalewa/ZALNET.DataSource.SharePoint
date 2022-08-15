@@ -5,23 +5,21 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Graph;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using ZALNET.DataSource.SharePoint.Settings;
 
 namespace ZALNET.DataSource.SharePoint
 {
     public class ListData
     {
-        private readonly Settings.ListData _settings;
-        private readonly GraphServiceClientProvider _graphProvider;
+        private readonly ListDataSettings _settings;
+        private readonly GraphServiceClient _graphServiceClient;
 
-        public ListData(IOptions<Settings.AppSettings> settings, GraphServiceClientProvider graphProvider)
+        public ListData(IOptions<ListDataSettings> settings, GraphServiceClient graphServiceClient)
         {
-            _settings = settings.Value.ListData;
-            _graphProvider = graphProvider;
+            _settings = settings.Value;
+            _graphServiceClient = graphServiceClient;
         }
 
         [FunctionName("SharePoint-ListData")]
@@ -31,8 +29,7 @@ namespace ZALNET.DataSource.SharePoint
         {
             log.LogInformation("ListData is requested.");
 
-            var graph = _graphProvider.Create();
-            var list = await graph.GetListAsync(_settings.SiteUrl, _settings.ListName);
+            var list = await _graphServiceClient.GetListAsync(_settings.SiteUrl, _settings.ListName);
 
             var queryOptions = new List<QueryOption>()
             {

@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Azure.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.Graph;
-using Microsoft.Graph.Auth;
 using Microsoft.Identity.Client;
 using ZALNET.DataSource.SharePoint.Settings;
 
@@ -17,13 +17,14 @@ namespace ZALNET.DataSource.SharePoint
 
         public GraphServiceClient Create()
         {
-            var confidentialClientApplication = ConfidentialClientApplicationBuilder.Create(_azureAppSettings.ClientId)
-                .WithClientSecret(_azureAppSettings.ClientSecret)
-                .WithTenantId(_azureAppSettings.TenantId)
-                .Build();
+	   // Tutaj używamy klasy ClientSecretCredential z pakietu Azure.Identity:
 
-            var authProvider = new ClientCredentialProvider(confidentialClientApplication);
-            return new GraphServiceClient(authProvider);
+            ClientSecretCredential clientSecretCredential = new(_azureAppSettings.TenantId,
+                                                                _azureAppSettings.ClientId,
+                                                                _azureAppSettings.ClientSecret);
+
+	   // Tutaj przekazujemy instancję ClientSecretCredential z pakietu Azure.Identity:
+            return new GraphServiceClient(clientSecretCredential);
         }
     }
 }
